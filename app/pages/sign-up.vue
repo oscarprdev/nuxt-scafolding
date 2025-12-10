@@ -9,7 +9,6 @@ useSeoMeta({
   <div class="flex min-h-screen items-center justify-center px-4 bg-gray-50">
     <div class="w-full max-w-md">
       <div class="text-center mb-8">
-        <h1 class="text-4xl font-bold text-gray-900 mb-2">project</h1>
         <h2 class="text-2xl font-semibold text-gray-900">Create account</h2>
         <p class="mt-2 text-sm text-gray-600">Join project and start tracking your progress.</p>
       </div>

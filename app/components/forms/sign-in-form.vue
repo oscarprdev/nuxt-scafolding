@@ -41,25 +41,25 @@ const onSubmit = handleSubmit(async values => {
 
 <template>
   <form @submit="onSubmit" class="space-y-4">
-    <Alert v-if="state.error" variant="error">
+    <UiAlert v-if="state.error" variant="error">
       {{ state.error }}
-    </Alert>
+    </UiAlert>
 
     <div>
       <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-      <Input id="email" v-model="email" v-bind="emailAttrs" type="email" placeholder="you@example.com" />
+      <UiInput id="email" v-model="email" v-bind="emailAttrs" type="email" placeholder="you@example.com" />
       <p v-if="errors.email" class="mt-1 text-sm text-red-600">{{ errors.email }}</p>
     </div>
 
     <div>
       <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-      <Input id="password" v-model="password" v-bind="passwordAttrs" type="password" placeholder="••••••••" />
+      <UiInput id="password" v-model="password" v-bind="passwordAttrs" type="password" placeholder="••••••••" />
       <p v-if="errors.password" class="mt-1 text-sm text-red-600">{{ errors.password }}</p>
     </div>
 
-    <Button type="submit" variant="primary" :disabled="state.loading" class="w-full">
+    <UiButton type="submit" variant="primary" :disabled="state.loading" class="w-full">
       {{ state.loading ? 'Signing in...' : 'Sign in' }}
-    </Button>
+    </UiButton>
 
     <p class="text-center text-sm text-gray-600">
       Don't have an account?

@@ -18,12 +18,12 @@ const handleSignOut = async () => {
           <div class="flex items-center gap-4">
             <template v-if="user">
               <div class="flex items-center gap-3">
-                <Button @click="handleSignOut" variant="outline"> Log out </Button>
+                <UiButton @click="handleSignOut" variant="outline"> Log out </UiButton>
               </div>
             </template>
             <template v-else>
               <NuxtLink to="/sign-in">
-                <Button variant="primary">Sign In</Button>
+                <UiButton variant="primary">Sign In</UiButton>
               </NuxtLink>
             </template>
           </div>
