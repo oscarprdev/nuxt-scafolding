@@ -3,7 +3,7 @@ definePageMeta({
   middleware: 'auth',
 })
 
-const { user } = useProtectedPage()
+const { user } = useAuth()
 </script>
 
 <template>
