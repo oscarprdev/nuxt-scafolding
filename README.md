@@ -42,14 +42,17 @@ Before you begin, ensure you have:
 
 ## Quick Setup
 
-### 1. Clone or Use This Template
+### 1. How to use This Template
 
 ```bash
-# Clone the repository
-git clone <your-repo-url> my-new-project
-cd my-new-project
-
-# Or click "Use this template" on GitHub
+mkdir -p my-app
+cd my-app
+TMPDIR=$(mktemp -d)
+git clone --depth=1 git@github.com:oscarprdev/nuxt-scafolding.git "$TMPDIR/nuxt-scafolding"
+rm -rf "$TMPDIR/nuxt-scafolding/.git"   # remove its Git metadata so it won't be a submodule
+mv "$TMPDIR/nuxt-scafolding" my-app
+git add .
+git commit -m "Add apps/web from oscarprdev/nuxt-scafolding (vendored, no history)
 ```
 
 ### 2. Install Dependencies
