@@ -1,18 +1,17 @@
-import { useSession } from '~/lib/auth-client'
+import { authClient } from '~/lib/auth-client'
+
+const PROTECTED_ROUTES = ['/dashboard']
+
+const PUBLIC_ROUTES = ['/', '/sign-in', '/sign-up']
 
 export default defineNuxtRouteMiddleware(async to => {
-  // Skip middleware during server-side rendering
-  if (import.meta.server) return
-
-  const session = useSession()
-
-  // If trying to access protected route without session
-  if (!session.value.data && to.path.startsWith('/dashboard')) {
-    return navigateTo('/sign-in')
-  }
-
-  // If already logged in and trying to access auth pages
-  if (session.value.data && (to.path === '/sign-in' || to.path === '/sign-up')) {
-    return navigateTo('/dashboard')
+  const { data: session } = await authClient.useSession(useFetch)
+  if (!session.value) {
+    if (PROTECTED_ROUTES.includes(to.path)) {
+      return navigateTo(PUBLIC_ROUTES[0])
+    }
+    if (PUBLIC_ROUTES.includes(to.path)) {
+      return navigateTo(PROTECTED_ROUTES[0])
+    }
   }
 })

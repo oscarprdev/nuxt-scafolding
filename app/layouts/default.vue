@@ -16,17 +16,14 @@ const handleSignOut = async () => {
             <NuxtLink to="/" class="text-xl font-bold text-gray-900">project</NuxtLink>
           </div>
           <div class="flex items-center gap-4">
-            <NuxtLink to="/" class="text-gray-700 hover:text-gray-900">Home</NuxtLink>
-            <NuxtLink to="/dashboard" class="text-gray-700 hover:text-gray-900">Dashboard</NuxtLink>
             <template v-if="user">
               <div class="flex items-center gap-3">
-                <span class="text-sm text-gray-700">{{ user.name }}</span>
-                <UiButton @click="handleSignOut" variant="outline"> Log out </UiButton>
+                <Button @click="handleSignOut" variant="outline"> Log out </Button>
               </div>
             </template>
             <template v-else>
               <NuxtLink to="/sign-in">
-                <UiButton variant="primary">Sign In</UiButton>
+                <Button variant="primary">Sign In</Button>
               </NuxtLink>
             </template>
           </div>

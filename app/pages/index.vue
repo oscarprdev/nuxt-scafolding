@@ -9,15 +9,15 @@ const { user } = useAuth()
       <div class="flex gap-4 justify-center">
         <template v-if="!user">
           <NuxtLink to="/sign-in">
-            <UiButton variant="primary">Sign In</UiButton>
+            <Button variant="primary">Sign In</Button>
           </NuxtLink>
           <NuxtLink to="/sign-up">
-            <UiButton variant="outline">Sign Up</UiButton>
+            <Button variant="outline">Sign Up</Button>
           </NuxtLink>
         </template>
         <template v-else>
           <NuxtLink to="/dashboard">
-            <UiButton variant="primary">Go to Dashboard</UiButton>
+            <Button variant="primary">Go to Dashboard</Button>
           </NuxtLink>
         </template>
       </div>

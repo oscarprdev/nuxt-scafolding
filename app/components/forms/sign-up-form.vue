@@ -2,8 +2,6 @@
 import { useForm } from 'vee-validate'
 import * as yup from 'yup'
 
-const { register } = useAuth()
-
 const schema = yup.object({
   name: yup.string().required('Name is required'),
   email: yup.string().required('Email is required').email('Invalid email'),
@@ -16,6 +14,7 @@ const state = ref({
   success: false,
 })
 
+const { register } = useAuth()
 const { defineField, handleSubmit, errors, resetForm } = useForm({
   validationSchema: schema,
 })
@@ -47,33 +46,33 @@ const onSubmit = handleSubmit(async values => {
 
 <template>
   <form @submit="onSubmit" class="space-y-4">
-    <UiAlert v-if="state.error" variant="error">
+    <Alert v-if="state.error" variant="error">
       {{ state.error }}
-    </UiAlert>
+    </Alert>
 
-    <UiAlert v-if="state.success" variant="success"> Account created! Redirecting... </UiAlert>
+    <Alert v-if="state.success" variant="success"> Account created! Redirecting... </Alert>
 
     <div>
       <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Name</label>
-      <UiInput id="name" v-model="name" v-bind="nameAttrs" type="text" placeholder="John Doe" />
+      <Input id="name" v-model="name" v-bind="nameAttrs" type="text" placeholder="John Doe" />
       <p v-if="errors.name" class="mt-1 text-sm text-red-600">{{ errors.name }}</p>
     </div>
 
     <div>
       <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-      <UiInput id="email" v-model="email" v-bind="emailAttrs" type="email" placeholder="you@example.com" />
+      <Input id="email" v-model="email" v-bind="emailAttrs" type="email" placeholder="you@example.com" />
       <p v-if="errors.email" class="mt-1 text-sm text-red-600">{{ errors.email }}</p>
     </div>
 
     <div>
       <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
-      <UiInput id="password" v-model="password" v-bind="passwordAttrs" type="password" placeholder="••••••••" />
+      <Input id="password" v-model="password" v-bind="passwordAttrs" type="password" placeholder="••••••••" />
       <p v-if="errors.password" class="mt-1 text-sm text-red-600">{{ errors.password }}</p>
     </div>
 
-    <UiButton type="submit" variant="primary" :disabled="state.loading" class="w-full">
+    <Button type="submit" variant="primary" :disabled="state.loading" class="w-full">
       {{ state.loading ? 'Creating account...' : 'Sign up' }}
-    </UiButton>
+    </Button>
 
     <p class="text-center text-sm text-gray-600">
       Already have an account?
