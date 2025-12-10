@@ -8,7 +8,13 @@ export function useAuth() {
 
   const login = async (email: string, password: string) => {
     try {
-      await signIn.email({ email, password })
+      const result = await signIn.email({ email, password })
+      if (!result.data) {
+        return {
+          success: false,
+          error: result.error.message || 'Failed to sign in',
+        }
+      }
       return { success: true, error: null }
     } catch (error: any) {
       return {
@@ -20,7 +26,13 @@ export function useAuth() {
 
   const register = async (name: string, email: string, password: string) => {
     try {
-      await signUp.email({ name, email, password })
+      const result = await signUp.email({ name, email, password })
+      if (!result.data) {
+        return {
+          success: false,
+          error: result.error.message || 'Failed to sign in',
+        }
+      }
       return { success: true, error: null }
     } catch (error: any) {
       return {
