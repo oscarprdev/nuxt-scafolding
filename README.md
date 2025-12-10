@@ -1,189 +1,317 @@
 # Nuxt 4 Scaffolding Project
 
-A modern full-stack Nuxt 4 application with a complete tech stack including Tailwind CSS, Reka UI, Drizzle ORM, Neon Database, and Better Auth.
+**A production-ready Nuxt 4 starter template** designed to speed up new project development. This scaffolding includes authentication, database integration, UI components, and best practices out of the box.
+
+> 🚀 **Quick Start**: Clone this template and have a full-stack application running in minutes, not hours.
+
+## Why This Scaffolding?
+
+Starting a new Nuxt project often means spending hours setting up the same foundational pieces: authentication, database, UI components, form validation, and more. This template provides all of that pre-configured and ready to extend.
+
+**What's Included:**
+
+- ✅ Complete authentication system (sign up, sign in, protected routes)
+- ✅ Database integration with type-safe ORM
+- ✅ Pre-built UI components with accessibility
+- ✅ Form validation patterns
+- ✅ API endpoint examples
+- ✅ Responsive layouts
+- ✅ TypeScript throughout
+- ✅ Production best practices
 
 ## Tech Stack
 
-- **[Nuxt 4](https://nuxt.com/)** (v4.2.2) - The Intuitive Vue Framework
-- **[Tailwind CSS](https://tailwindcss.com/)** (v4.1.17) - Utility-first CSS framework
-- **[Reka UI](https://reka-ui.com/)** (v2.6.1) - Unstyled, accessible Vue components
-- **[Drizzle ORM](https://orm.drizzle.team/)** (v0.45.0) - TypeScript ORM
-- **[Neon](https://neon.tech/)** - Serverless PostgreSQL
-- **[Better Auth](https://www.better-auth.com/)** (v1.4.6) - Modern authentication for TypeScript
+| Layer               | Technology                                  | Version    |
+| ------------------- | ------------------------------------------- | ---------- |
+| **Framework**       | [Nuxt 4](https://nuxt.com/)                 | v4.2.2     |
+| **Styling**         | [Tailwind CSS](https://tailwindcss.com/)    | v4.1.17    |
+| **UI Components**   | [Reka UI](https://reka-ui.com/)             | v2.6.1     |
+| **Database ORM**    | [Drizzle ORM](https://orm.drizzle.team/)    | v0.45.0    |
+| **Database**        | [Neon PostgreSQL](https://neon.tech/)       | Serverless |
+| **Authentication**  | [Better Auth](https://www.better-auth.com/) | v1.4.6     |
+| **Form Validation** | vee-validate + Yup                          | Latest     |
+| **TypeScript**      | Full type safety                            | Latest     |
 
 ## Prerequisites
 
-- Node.js 18+ or 20+
-- pnpm (recommended) or npm/yarn
-- A Neon database account
+Before you begin, ensure you have:
 
-## Setup
+- **Node.js 18+** or **20+** installed ([Download](https://nodejs.org/))
+- **pnpm** package manager ([Install](https://pnpm.io/installation))
+- **Neon database account** ([Sign up free](https://neon.tech/))
 
-### 1. Install Dependencies
+## Quick Setup
+
+### 1. Clone or Use This Template
+
+```bash
+# Clone the repository
+git clone <your-repo-url> my-new-project
+cd my-new-project
+
+# Or click "Use this template" on GitHub
+```
+
+### 2. Install Dependencies
 
 ```bash
 pnpm install
 ```
 
-### 2. Environment Variables
+### 3. Configure Environment Variables
 
-Copy the `.env.example` file to `.env` and fill in your credentials:
+Create your environment file:
 
 ```bash
 cp .env.example .env
 ```
 
-Required environment variables:
+Edit `.env` and add your credentials:
 
 ```env
-# Neon Database URL
-DATABASE_URL=postgresql://user:password@host/database
+# Neon Database Connection
+DATABASE_URL=postgresql://user:password@host/database?sslmode=require
 
-# Better Auth
-BETTER_AUTH_SECRET=your_secret_key_min_32_characters
+# Better Auth Configuration
+BETTER_AUTH_SECRET=your-random-secret-min-32-chars
 BETTER_AUTH_URL=http://localhost:3000
 ```
 
-#### Getting Neon Database URL:
+#### 🔑 Getting Your Neon Database URL
 
-1. Go to [Neon Console](https://console.neon.tech/)
-2. Create a new project or select an existing one
-3. Copy the connection string from the dashboard
+1. Visit [Neon Console](https://console.neon.tech/)
+2. Create a new project (free tier available)
+3. Copy the connection string from your dashboard
+4. Paste it as your `DATABASE_URL`
 
-#### Setting Up Better Auth Secret:
+#### 🔐 Generating Better Auth Secret
 
-Generate a random secret key (minimum 32 characters). You can use:
+Generate a secure random key (minimum 32 characters):
 
 ```bash
+# Using OpenSSL (Mac/Linux)
 openssl rand -base64 32
+
+# Using Node.js
+node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
 ```
 
-Or generate one online at [generate-secret.now.sh](https://generate-secret.now.sh/32)
+Or use an online generator: [generate-secret.now.sh/32](https://generate-secret.now.sh/32)
 
-### 3. Database Setup
+### 4. Set Up Database
 
-Generate and run database migrations:
+Initialize your database with the required tables:
 
 ```bash
-# Generate migrations from schema
+# Push schema to database (recommended for initial setup)
+pnpm db:push
+```
+
+For production or team environments, use migrations:
+
+```bash
+# Generate migration files
 pnpm db:generate
 
-# Push schema to database
-pnpm db:push
-
-# Or run migrations
+# Run migrations
 pnpm db:migrate
 ```
 
-### 4. Development Server
-
-Start the development server on `http://localhost:3000`:
+### 5. Start Development Server
 
 ```bash
 pnpm dev
 ```
 
-## Project Structure
+Visit [http://localhost:3000](http://localhost:3000) to see your application! 🎉
 
-> **📖 See [COMPONENT_STRUCTURE.md](./COMPONENT_STRUCTURE.md) for detailed component organization guidelines**
+### 6. Test Authentication
+
+1. Click **Sign Up** and create an account
+2. Sign in with your credentials
+3. Access the protected **Dashboard** page
+4. Update your profile information
+
+Your scaffolding is now ready for development!
+
+---
+
+## Project Structure Overview
+
+This scaffolding uses a clean, organized structure optimized for scalability:
 
 ```
-app/
-├── components/        # Vue components (organized by type)
-│   ├── forms/        # Form components (dash-case.vue)
-│   │   └── user-profile-form.vue  # User profile update form
-│   ├── ui/           # Shared UI components (dash-case.vue)
-│   │   └── example-dialog.vue     # Reka UI dialog example
-│   └── dashboard/    # Dashboard-specific components (dash-case.vue)
-├── composables/       # Vue composables
-│   └── useAuth.ts     # Authentication composable
-├── layouts/          # Nuxt layouts
-│   └── default.vue    # Default layout with auth
-├── lib/
-│   └── auth-client.ts # Better Auth client setup
-├── middleware/       # Route middleware
-│   └── auth.ts        # Authentication middleware
-├── pages/            # File-based routing
-│   ├── index.vue      # Home page
-│   ├── dashboard.vue  # Protected dashboard
-│   ├── sign-in.vue    # Sign in page
-│   └── sign-up.vue    # Sign up page
-└── app.vue           # Root component
+app/                    # Frontend application
+├── components/         # Vue components (auto-imported)
+│   ├── forms/         # Form components
+│   ├── ui/            # Shared UI components
+│   └── [page]/        # Page-specific components
+├── composables/        # Composables (useAuth, etc.)
+├── pages/             # File-based routing
+├── layouts/           # Layouts
+└── middleware/        # Route protection
 
-server/
-├── api/              # API routes
-│   ├── auth/
-│   │   └── [...all].ts  # Better Auth API handler
-│   ├── user/
-│   │   ├── profile.get.ts  # Get user profile
-│   │   └── update.patch.ts # Update user profile
-│   └── users.get.ts  # Get all users (example)
-├── database/
-│   ├── schema.ts     # Drizzle schema (Better Auth tables)
-│   └── index.ts      # Database connection
-├── lib/
-│   └── auth.ts       # Better Auth server configuration
-└── utils/
-    └── auth.ts       # Server auth utilities
+server/                 # Backend API
+├── api/               # API endpoints
+│   ├── auth/         # Better Auth routes
+│   └── [resource]/   # Resource endpoints
+├── database/          # Drizzle ORM
+│   ├── schema.ts     # Database schema
+│   └── migrations/   # Database migrations
+└── utils/            # Server utilities
 ```
+
+> 📘 **For detailed development guidelines**, see **[CLAUDE.md](./CLAUDE.md)** - Complete guide on adding components, pages, API endpoints, and more.
+
+---
 
 ## Available Scripts
 
-```bash
-# Development
-pnpm dev              # Start dev server
+| Command            | Description                                  |
+| ------------------ | -------------------------------------------- |
+| `pnpm dev`         | Start development server at `localhost:3000` |
+| `pnpm build`       | Build for production                         |
+| `pnpm preview`     | Preview production build locally             |
+| `pnpm db:generate` | Generate database migrations                 |
+| `pnpm db:migrate`  | Run database migrations                      |
+| `pnpm db:push`     | Push schema directly to database (dev)       |
+| `pnpm db:studio`   | Open Drizzle Studio (database GUI)           |
+| `pnpm format`      | Format code with Prettier                    |
 
-# Build
-pnpm build            # Build for production
-pnpm preview          # Preview production build
+---
 
-# Database
-pnpm db:generate      # Generate migrations
-pnpm db:migrate       # Run migrations
-pnpm db:push          # Push schema to database
-pnpm db:studio        # Open Drizzle Studio
-```
+## What's Included
 
-## Features
+### 🔐 Authentication System
 
-### Authentication with Better Auth
-
-- Email and password authentication
-- Custom sign in/sign up forms
-- Protected routes with middleware
+- Complete email/password authentication with Better Auth
+- Pre-built sign-up and sign-in forms with validation
+- Protected routes using middleware
 - Session management
 - User profile management
-- User information display
-- Secure password hashing
-- Database-backed authentication
-- Server-side session validation
-- `useAuth()` composable for easy access
+- `useAuth()` composable for easy integration
 
-**📖 [Complete Authentication Guide](./AUTHENTICATION.md)**
+### 🗄️ Database Integration
 
-### Database with Drizzle & Neon
+- Drizzle ORM with full TypeScript support
+- Serverless PostgreSQL via Neon
+- Pre-configured schema with Better Auth tables
+- Migration system for schema changes
+- Example API endpoints for CRUD operations
 
-- Type-safe database queries
-- Migration system
-- Better Auth compatible schema
-- API endpoint examples
-- Serverless PostgreSQL with Neon
+### 🎨 UI Components & Styling
 
-### UI Components
+- Tailwind CSS 4 for utility-first styling
+- Reka UI for accessible, unstyled components
+- Pre-built components: buttons, dialogs, forms
+- Responsive layouts
+- Form validation with vee-validate + Yup
+- CVA (Class Variance Authority) for component variants
 
-- Tailwind CSS for styling
-- Reka UI for accessible components
-- Organized component structure (forms/, ui/, [page-name]/)
-- All components use dash-case.vue naming
-- Script-first component structure
-- Responsive layout
-- Custom authentication forms with vee-validate
+### 📁 Organized Structure
+
+- Component organization by type and scope
+- Auto-importing for components and composables
+- File-based routing with Nuxt
+- RESTful API endpoint patterns
+- TypeScript throughout
+
+---
+
+## Development Guide
+
+Ready to start building? Check out these resources:
+
+- **[CLAUDE.md](./CLAUDE.md)** - Comprehensive development guide
+  - How to add components, pages, and API endpoints
+  - Database patterns and best practices
+  - Form validation patterns
+  - Styling guidelines
+  - Common patterns and examples
+
+---
+
+## Customizing for Your Project
+
+This is a **scaffolding project**, so feel free to:
+
+1. **Remove unused features** - Don't need authentication? Remove it!
+2. **Add new features** - Follow the patterns in CLAUDE.md
+3. **Customize styling** - Update Tailwind config and component themes
+4. **Change database** - Drizzle supports PostgreSQL, MySQL, SQLite
+5. **Add OAuth providers** - Better Auth supports many providers
+6. **Extend the schema** - Add your own database tables
+
+The goal is to give you a solid foundation, not to be prescriptive.
+
+---
+
+## Production Deployment
+
+### Environment Variables
+
+Ensure these are set in production:
+
+```env
+DATABASE_URL=your_production_database_url
+BETTER_AUTH_SECRET=your_production_secret_min_32_chars
+BETTER_AUTH_URL=https://your-domain.com
+```
+
+### Build and Deploy
+
+```bash
+# Build for production
+pnpm build
+
+# Preview locally
+pnpm preview
+```
+
+Deploy to your preferred platform:
+
+- **Vercel** - Zero config deployment
+- **Netlify** - Nuxt support built-in
+- **Cloudflare Pages** - Edge deployment
+- **Digital Ocean** - VPS deployment
+
+See [Nuxt Deployment Docs](https://nuxt.com/docs/getting-started/deployment) for platform-specific guides.
+
+---
 
 ## Learn More
 
-- [Nuxt Documentation](https://nuxt.com/docs)
-- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
-- [Reka UI Documentation](https://reka-ui.com/)
-- [Drizzle ORM Documentation](https://orm.drizzle.team/)
-- [Neon Documentation](https://neon.tech/docs)
-- [Better Auth Documentation](https://www.better-auth.com/)
+### Framework & Libraries Documentation
+
+- [Nuxt 4 Documentation](https://nuxt.com/docs) - Vue.js framework
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs) - Utility-first CSS
+- [Reka UI Documentation](https://reka-ui.com/) - Accessible Vue components
+- [Drizzle ORM Documentation](https://orm.drizzle.team/) - TypeScript ORM
+- [Better Auth Documentation](https://www.better-auth.com/) - Authentication
+- [Neon Documentation](https://neon.tech/docs) - Serverless PostgreSQL
+
+### Project Documentation
+
+- [CLAUDE.md](./CLAUDE.md) - Development guide
+- [AUTHENTICATION.md](./AUTHENTICATION.md) - Auth implementation details
+- [COMPONENT_STRUCTURE.md](./COMPONENT_STRUCTURE.md) - Component organization
+
+---
+
+## Contributing
+
+This scaffolding is meant to be copied and customized for your projects. If you find improvements that would benefit others:
+
+1. Fork this repository
+2. Make your improvements
+3. Submit a pull request
+
+---
+
+## License
+
+MIT License - Feel free to use this scaffolding for any project.
+
+---
+
+**Happy building!** 🚀 If you have questions or run into issues, check [CLAUDE.md](./CLAUDE.md) for detailed guides on common tasks.

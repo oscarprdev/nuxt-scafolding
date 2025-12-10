@@ -2,76 +2,64 @@
 import { useForm } from 'vee-validate'
 import * as yup from 'yup'
 
-interface SignInFormData {
-  email: string
-  password: string
-}
-
-interface Props {
-  loading?: boolean
-  error?: string
-}
-
-const props = withDefaults(defineProps<Props>(), {
-  loading: false,
-  error: '',
-})
-
-const emit = defineEmits<{
-  submit: [data: SignInFormData]
-}>()
+const { login } = useAuth()
 
 const schema = yup.object({
   email: yup.string().required('Email is required').email('Invalid email'),
   password: yup.string().required('Password is required'),
 })
 
-const { defineField, handleSubmit, errors } = useForm<SignInFormData>({
+const state = ref({
+  loading: false,
+  error: null as string | null,
+})
+
+const { defineField, handleSubmit, errors } = useForm({
   validationSchema: schema,
 })
 
 const [email, emailAttrs] = defineField('email')
 const [password, passwordAttrs] = defineField('password')
 
-const onSubmit = handleSubmit((values) => {
-  emit('submit', values)
+const onSubmit = handleSubmit(async values => {
+  state.value = { loading: true, error: null }
+
+  try {
+    const result = await login(values.email, values.password)
+
+    if (result.success) {
+      await navigateTo('/dashboard')
+    } else {
+      state.value.error = result.error || 'Invalid credentials'
+    }
+  } catch (err: any) {
+    state.value.error = err.message || 'Something went wrong'
+  } finally {
+    state.value.loading = false
+  }
 })
 </script>
 
 <template>
-  <form @submit="onSubmit" class="mt-8 space-y-4">
-    <div v-if="error" class="rounded-md bg-red-50 p-3 text-sm text-red-800">
-      {{ error }}
-    </div>
+  <form @submit="onSubmit" class="space-y-4">
+    <UiAlert v-if="state.error" variant="error">
+      {{ state.error }}
+    </UiAlert>
 
     <div>
-      <input
-        id="email"
-        v-model="email"
-        v-bind="emailAttrs"
-        type="email"
-        placeholder="Email"
-        class="block w-full rounded-md border-0 px-3 py-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
-        :class="{ 'ring-red-500': errors.email }"
-      />
+      <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+      <UiInput id="email" v-model="email" v-bind="emailAttrs" type="email" placeholder="you@example.com" />
       <p v-if="errors.email" class="mt-1 text-sm text-red-600">{{ errors.email }}</p>
     </div>
 
     <div>
-      <input
-        id="password"
-        v-model="password"
-        v-bind="passwordAttrs"
-        type="password"
-        placeholder="Password"
-        class="block w-full rounded-md border-0 px-3 py-2 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600"
-        :class="{ 'ring-red-500': errors.password }"
-      />
+      <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+      <UiInput id="password" v-model="password" v-bind="passwordAttrs" type="password" placeholder="••••••••" />
       <p v-if="errors.password" class="mt-1 text-sm text-red-600">{{ errors.password }}</p>
     </div>
 
-    <UiButton type="submit" variant="primary" :disabled="loading" class="w-full">
-      {{ loading ? 'Signing in...' : 'Sign in' }}
+    <UiButton type="submit" variant="primary" :disabled="state.loading" class="w-full">
+      {{ state.loading ? 'Signing in...' : 'Sign in' }}
     </UiButton>
 
     <p class="text-center text-sm text-gray-600">

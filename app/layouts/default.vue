@@ -13,7 +13,7 @@ const handleSignOut = async () => {
       <nav class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="flex h-16 justify-between items-center">
           <div class="flex items-center">
-            <NuxtLink to="/" class="text-xl font-bold text-gray-900">gym-tracker</NuxtLink>
+            <NuxtLink to="/" class="text-xl font-bold text-gray-900">project</NuxtLink>
           </div>
           <div class="flex items-center gap-4">
             <NuxtLink to="/" class="text-gray-700 hover:text-gray-900">Home</NuxtLink>
@@ -21,9 +21,7 @@ const handleSignOut = async () => {
             <template v-if="user">
               <div class="flex items-center gap-3">
                 <span class="text-sm text-gray-700">{{ user.name }}</span>
-                <UiButton @click="handleSignOut" variant="outline">
-                  Log out
-                </UiButton>
+                <UiButton @click="handleSignOut" variant="outline"> Log out </UiButton>
               </div>
             </template>
             <template v-else>

@@ -5,7 +5,7 @@ const { user } = useAuth()
 <template>
   <div class="flex items-center justify-center min-h-[calc(100vh-4rem)]">
     <div class="text-center">
-      <h1 class="text-6xl font-bold text-gray-900 mb-8">gym-tracker</h1>
+      <h1 class="text-6xl font-bold text-gray-900 mb-8">project</h1>
       <div class="flex gap-4 justify-center">
         <template v-if="!user">
           <NuxtLink to="/sign-in">
